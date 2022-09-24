@@ -1,0 +1,20 @@
+@import "mixins/mixins.scss";
+
+// mobile styling (x<768px)
+.sample{
+
+}
+
+// small desktop styling (768px<x<1200px)
+@include media-md{
+  .sample{
+    
+  }
+}
+
+// large desktop styling (x>1200px)
+@include media-md{
+  .sample{
+    
+  }
+}

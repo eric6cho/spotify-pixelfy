@@ -1,0 +1,46 @@
+@import "mixins/mixins.scss";
+
+@include custom-scrollbar();
+@include themes();
+
+html {
+  height: 100%;
+}
+
+body {
+  @include defaultText(); 
+  position: relative;
+  margin: 0;
+  padding: 0;
+  background: var(--background);
+  height:100%;
+  width: 100%;
+
+  #root{
+    height:100%;
+
+    .App{
+      position: relative;
+      height:100%;
+          
+      // mobile styling (x<768px)
+      .content{
+
+      }
+
+      // small desktop styling (768px<x<1200px)
+      @include media-md{
+        .content{
+          
+        }
+      }
+
+      // large desktop styling (x>1200px)
+      @include media-xl{
+        .content{
+          
+        } 
+      }
+    }
+  }
+}
