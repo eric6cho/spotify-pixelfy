@@ -1,50 +1,107 @@
-import React, { useState, useEffect, useRef } from "react";
-import Sample from "./components/comp-sample";
+import React, { useState, useEffect } from "react";
+import RankedList from './components/comp-ranked-list';
+import UserTag from './components/comp-user-tag';
 import * as u from './scripts/utils'; 
 import './styles/main.scss';
 
 export default function App() {
   
   // define states
-  const [testState,setTestState] = useState(null);
+  const [serverHost,setServerHost] = useState(null);
+  const [token,setToken] = useState(null);
+  const [userName,setUserName] = useState(null);
+  const [userImage,setUserImage] = useState(null);
+  const [pixelArtData,setPixelArtData] = useState(null);
+  const [rankLength] = useState(5);
 
   // define useEffect
   useEffect(() => {
-    setTestState(true);
 
-    u.fetchGet('/api/test').then(data=>{
-      console.log(data);
+    let token = u.accessToken;
+    
+    setToken(token);
+
+    u.fetchGet('/api/IM/wake_up');
+
+    u.setAccessToken(token).then(data => {
+
+      u.getServerHost().then(data => setServerHost(data['url']));
+
+      if(token){
+  
+        u.getArtists().then(data => {
+          let artists = data.slice(0,rankLength);
+          let tempPixelArtData = {};
+  
+          artists.forEach((artist,rank)=>{
+            u.getEditedImage(artist['images'][0]['url']).then(data=>{
+              data['name'] = artist['name'];
+              data['genre'] = artist['genres'][0];
+              data['rank'] = rank+1;
+    
+              tempPixelArtData[rank+1] = data;
+          
+              if(Object.keys(tempPixelArtData).length===rankLength) 
+                setPixelArtData(tempPixelArtData);
+            });
+          });
+        });
+
+        u.getProfile().then(data => {
+          setUserName(data['display_name']);
+          setUserImage(data['images'][0]['url']);
+        });
+      }
     });
+
     return () => {};
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  //define functions
-  const testFunction = () => {};
-
   //define component
   const getComponent = () => {
-    // null check
-    if(!testState) return;
-   
-    let content = 
-      <div className="content">
-        <h1>App Title (h1)</h1>
-        <h2>Section Title (h2)</h2>
-        <h3>Subsection Title (h3)</h3>
-        <h4>Section/Subsection Subtitle (h4)</h4>
-        <p>paragraph (p)</p>
-        <span>span (span)</span>
-        <a>anchor (a)</a>
+    
+    const loginComponent = 
+      <div className='main-section'>
+        <div className='main-section-inner'>
+          <div className='title-section'>
+          <h1>Pixelfy</h1>
+          <p>Your top artists on Spotify:</p>
+          </div>
+          <div className='login-section'>
+            <a className='login-button' href={serverHost+'/login'}>
+              Log in to Spotify
+            </a>
+          </div>
+        </div>
       </div>;
 
-    let sampleComponent = 
-      <Sample title='Sample Component Title'/>;
+    const loadingComponent = 
+      <div className='loading-section'>
+        <div className='loading-text'>
+          <p>Your data is loading :)</p>
+        </div>
+      </div>;
+
+    let rankListComponent = <RankedList data={pixelArtData}/>;
+
+    const homeComponent = 
+      <>      
+        <UserTag name={userName} image={userImage}/>
+        <div className='main-section'>
+          <div className='main-section-inner'>
+            <div className='title-section'>
+            <h1>Pixelfy</h1>
+            <p>Your top artists on Spotify:</p>
+            </div>
+            {pixelArtData?rankListComponent:loadingComponent}
+          </div>
+        </div> 
+      </>;
 
     return (
       <div className="App">
-        {content}
-        {sampleComponent}
+        {!token ? loginComponent : homeComponent}
       </div>
     );
   };

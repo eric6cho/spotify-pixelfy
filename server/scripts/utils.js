@@ -9,23 +9,32 @@ const VAL = 'VAL';
 
 // start util helper function definitions
 
-const utilTest = (p) => {
+const utilsTest = (p) => {
 
   return p;
 };
 
-const getUrlData = async url => new Promise (resolve => 
-  request.get(url, (error, response, body) => resolve(JSON.parse(body))));
+const utilsGetRandomStr = (length=16) => {
+  let str = '';
+  let s = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+  for (let i=0; i<length; i++) 
+    str += s.charAt(Math.floor(Math.random()*s.length));
+  return str;
+};
+
+const utilsGetUrlData =async (url) => new Promise (resolve => request.get(url, (error, response, body) => resolve(JSON.parse(body))));
 
 // end util helper function definitions
 
 // start serverUtil class definition
 
-let util = class {
-  test=(p)=>utilTest(p);
+let utils = class {
+  test=(p)=>utilsTest(p);
+  getRandomStr=(length)=>utilsGetRandomStr(length);
+  getUrlData = async (url) => new Promise(resolve => resolve(utilsGetUrlData(url)));
 }
 
-module.exports = new util();
+module.exports = new utils();
 
 // end util class definition
 
