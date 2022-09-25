@@ -6,7 +6,6 @@ import './styles/main.scss';
 
 export default function App() {
   
-  // define states
   const [serverHost,setServerHost] = useState(null);
   const [token,setToken] = useState(null);
   const [userName,setUserName] = useState(null);
@@ -14,9 +13,7 @@ export default function App() {
   const [pixelArtData,setPixelArtData] = useState(null);
   const [rankLength] = useState(5);
 
-  // define useEffect
   useEffect(() => {
-
     let token = u.accessToken;
     
     setToken(token);
@@ -58,7 +55,6 @@ export default function App() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  //define component
   const getComponent = () => {
     
     const loginComponent = 
@@ -83,7 +79,7 @@ export default function App() {
         </div>
       </div>;
 
-    let rankListComponent = <RankedList data={pixelArtData}/>;
+    const rankListComponent = <RankedList data={pixelArtData}/>;
 
     const homeComponent = 
       <>      

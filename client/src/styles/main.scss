@@ -3,7 +3,7 @@
 
 .App{
   position: relative;
-  height:100%;
+  //height:100%;
       
   // mobile styling (x<768px)
  
@@ -192,7 +192,7 @@
     border-radius: 6px;
     box-shadow:  3px 3px 6px #88888888, -3px -3px 6px #fdfdfd88;
     margin-bottom: 10px;
-    //background: rgba(255,255,255,0.5);
+    background: rgba(255,255,255,0.1);
     transition-duration: 0.2s;
 
     &:last-child{
