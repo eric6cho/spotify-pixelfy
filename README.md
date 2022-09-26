@@ -1,26 +1,30 @@
-# spotify-pixelfy
+# Pixelfy
 
-Description:
+An app that uses the Spotify API to generate user metrics, specifically their top listened artists, and generates a series of pixel art based on those artists.
+  
+## Deployed Application
 
-An ongoing full stack project made to generate a pixel art collection of the top artists of a Spotify listener.
-Uses the Spotify API and my own Image Mesh API to retrieve artist images and create pixel art versions.
+This application is deployed and hosted on Heroku and can be viewed 
+[here](https://spotify-pixelfy.herokuapp.com/).
 
-Image Mesh API: https://github.com/eric6cho/image-mesh-server
+## Available Scripts
 
-Guide:
+All scripts below are run from the project directory.
 
-To start node server:
+### Run the Node.js server
 
-npm start
+`npm start`
 
-To start react server:
+This will start the Node.js server on port 8888.
 
-cd client
+### Run the React client app
 
-npm start
+`cd client`
 
-Notes:
+`npm start`
 
-Local server is hosted on http://localhost:8888
+This will start the React client app on port 3000.
 
-Local react app is hosted on http://localhost:3000
+## Deploying The Project
+
+The deployed project is based on the `main` branch, and a new deployment occurs when updates are pushed onto the `main` branch.
